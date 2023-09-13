@@ -23,6 +23,11 @@ var ball = {
 
 function setup(){
   var canvas =  createCanvas(700,600);
+  video.parent('canvas');
+  video=createCapture(VIDEO);
+  video.size(700,600);
+  video.hide();
+
 }
 
 
