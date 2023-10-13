@@ -1,8 +1,7 @@
 
 /*created by prashant shukla */
 
-var paddle2 =10,paddle1=10;
-
+var  paddle2 =10,paddle1=10;
 var paddle1X = 10,paddle1Height = 110;
 var paddle2Y = 685,paddle2Height = 70;
 
@@ -27,19 +26,39 @@ function setup(){
 
   video=createCapture(VIDEO);
   video.size(700,600);
-  video.parent(game_cosole)
+  video.parent("game_cosole")
   video.hide();
 
-  poseNet=ml5.poseNet(video,modelLoaded)
-}
+  poseNet=ml5.poseNet(video,modelLoaded);
+	poseNet.on('pose',gotPoses);}
+
 function modelLoaded() {
   console.log("Model Loaded")
+}
+
+function gotPoses(results) {
+	if (results.length > 0) {
+		rightWristX=results[0].pose.rightWrist.x;
+     rightWristY=results[0].pose.rightWrist.y;
+     console.log("rightWristX = "+ rightWristX +"rightWristY = " + rightWristY);
+		
+     scoreRightWrist=results[0].pose.keypoints[10].score;
+
+      console.log("scoreRightWrist = "+ scoreRightWrist)
+	}
 }
 
 
 function draw(){
 
  background(0); 
+
+ if(scoreRightWrist > 0.2)
+ {
+   fill("red");
+   stroke("red");
+   circle(rightWristX, rightWristY, 30);
+ }
 
  fill("black");
  stroke("black");
